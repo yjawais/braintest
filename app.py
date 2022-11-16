@@ -2,7 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 # import cv2
-# from keras.models import load_model
+from keras.models import load_model
 from flask import Flask,request,render_template
 from werkzeug.utils import secure_filename
 
@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 
-# model =load_model('BrainTumor10Epochs.h5')
+# model = load_model('BrainTumor10Epochs.h5')
 
 
 def get_className(classNo):
