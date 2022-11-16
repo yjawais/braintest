@@ -5,12 +5,12 @@ from PIL import Image
 # from keras.models import load_model
 from flask import Flask,request,render_template
 from werkzeug.utils import secure_filename
-
+from tensorflow import keras as tf
 
 app = Flask(__name__)
 
 
-# model =load_model('BrainTumor10Epochs.h5')
+model = tf.keras.models.load_model('BrainTumor10Epochs.h5')
 
 
 def get_className(classNo):
