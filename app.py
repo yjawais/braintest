@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from PIL import Image
-import cv2
+# import cv2
 from keras.models import load_model
 from flask import Flask,request,render_template
 from werkzeug.utils import secure_filename
@@ -20,14 +20,14 @@ def get_className(classNo):
 		return "Yes Brain Tumor"
 
 
-def getResult(img):
-    image=cv2.imread(img)
-    image = Image.fromarray(image, 'RGB')
-    image = image.resize((64, 64))
-    image=np.array(image)
-    input_img = np.expand_dims(image, axis=0)
-    result=model.predict(input_img)
-    return result
+# def getResult(img):
+#     image=cv2.imread(img)
+#     image = Image.fromarray(image, 'RGB')
+#     image = image.resize((64, 64))
+#     image=np.array(image)
+#     input_img = np.expand_dims(image, axis=0)
+#     result=model.predict(input_img)
+#     return result
 
 
 @app.route('/')
