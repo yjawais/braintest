@@ -2,7 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 # import cv2
-# from keras.models import load_model
+from keras.models import load_model
 from flask import Flask,request,render_template
 from werkzeug.utils import secure_filename
 
@@ -13,11 +13,37 @@ app = Flask(__name__)
 # model =load_model('BrainTumor10Epochs.h5')
 
 
-# def get_className(classNo):
-# 	if classNo==0:
-# 		return "No Brain Tumor"
-# 	elif classNo==1:
-# 		return "Yes Brain Tumor"
+def get_className(classNo):
+	if classNo==0:
+		return "No Brain Tumor"
+	elif classNo==1:
+		return "Yes Brain Tumor"
+
+saved_model = load_model("BrainTumor10Epochs.h5")
+status = True
+
+
+def check(input_img):
+    print(" your image is : " + input_img)
+    print(input_img)
+
+    img = Image.load_img("images/" + input_img, target_size=(224, 224))
+    img = np.asarray(img)
+    print(img)
+
+    img = np.expand_dims(img, axis=0)
+
+    print(img)
+    output = saved_model.predict(img)
+
+    print(output)
+    if output[0][0] == 1:
+        status = True
+    else:
+        status = False
+
+    print(status)
+    return status
 
 
 # def getResult(img):
@@ -35,19 +61,19 @@ def home():
     return render_template('index.html')
 
 
-# @app.route('/predict', methods=["POST"])
-# def upload():
-#     if request.method == 'POST':
-#         f = request.files['file']
+@app.route('/predict', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['file']
 
-#         basepath = os.path.dirname(__file__)
-#         file_path = os.path.join(
-#             basepath, 'uploads', secure_filename(f.filename))
-#         f.save(file_path)
-#         value=getResult(file_path)
-#         result=get_className(value) 
-#         return result
-#     return None 
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join(
+            basepath, 'uploads', secure_filename(f.filename))
+        f.save(file_path)
+        value=check(file_path)
+        result=get_className(value) 
+        return result
+    return None 
 
 
 if __name__ == '__main__':
