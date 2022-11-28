@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from PIL import Image
-# import cv2
+import cv2
 import tensorflow as tf
 # from keras.models import load_model
 from flask import Flask,request,render_template
